@@ -16,7 +16,7 @@ from datetime import datetime
 from langgraph.graph import StateGraph, START, END
 
 # ── Logging ───────────────────────────────────────────────────────────────────
-log_dir = Path(__file__).parent.parent / "logs"
+log_dir = Path(__file__).parent / "logs"
 log_dir.mkdir(parents=True, exist_ok=True)
 logging.basicConfig(handlers=[logging.FileHandler(log_dir / "relaunch_ai.json")], level=logging.INFO)
 logger = logging.getLogger("relaunch_ai")

@@ -4,3 +4,4 @@ langgraph==0.2.55
 langchain-core==0.3.15
 requests==2.32.3
 pydantic==2.9.2
+python-multipart==0.0.9

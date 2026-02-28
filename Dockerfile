@@ -2,18 +2,19 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
-# Install dependencies
+# Install dependencies first (cached layer)
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy app source
 COPY . .
 
-# Create logs directory
+# Create logs directory inside app
 RUN mkdir -p /app/logs
 
-# Expose port (Railway / Render override via $PORT)
+# Railway sets $PORT dynamically — default 8000 for local/Docker
+ENV PORT=8000
+
 EXPOSE 8000
 
-# Start — use $PORT if set, else 8000
-CMD ["sh", "-c", "python -m uvicorn main:app --host 0.0.0.0 --port ${PORT:-8000}"]
+CMD python -m uvicorn main:app --host 0.0.0.0 --port $PORT
