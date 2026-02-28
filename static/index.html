@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>relaunch.ai — Startup Autopsy & Revival Engine</title>
+<style>
+:root{
+  --a:#6c63ff;--a2:#a78bfa;--dk:#0d0d14;--s:#13131d;--c:#1a1a27;--c2:#1e1e2e;
+  --t:#e2e8f0;--m:#94a3b8;--danger:#ff5555;--success:#34d399;--r:14px;
+  --font:'Segoe UI',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--dk);color:var(--t);min-height:100vh}
+a{color:var(--a)}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-thumb{background:#333;border-radius:3px}
+
+/* ── NAV ── */
+nav{background:rgba(13,13,20,.96);backdrop-filter:blur(12px);padding:14px 32px;
+  display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid #ffffff0d;position:sticky;top:0;z-index:200}
+.nlogo{font-size:1.1rem;font-weight:900;letter-spacing:-.02em}
+.nlogo span{background:linear-gradient(135deg,var(--a),var(--a2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nbadge{background:#6c63ff22;border:1px solid #6c63ff44;color:var(--a2);
+  font-size:.72rem;padding:4px 12px;border-radius:20px;font-weight:600}
+
+/* ── HERO ── */
+#heroSection{padding:80px 24px 48px;text-align:center;
+  background:radial-gradient(ellipse 80% 40% at 50% 0%,#6c63ff18,transparent 70%)}
+.eyebrow{display:inline-block;background:#6c63ff20;border:1px solid #6c63ff40;
+  color:var(--a2);font-size:.8rem;padding:6px 16px;border-radius:20px;margin-bottom:20px;font-weight:600}
+#heroSection h1{font-size:clamp(2.2rem,5.5vw,3.8rem);font-weight:900;line-height:1.1;
+  margin-bottom:14px;letter-spacing:-.03em}
+.grad{background:linear-gradient(135deg,var(--a),var(--a2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-sub{font-size:1.05rem;color:var(--m);max-width:540px;margin:0 auto 36px;line-height:1.65}
+
+/* ── EXAMPLE CHIPS ── */
+.examples{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:40px}
+.chip{background:var(--c);border:1px solid #ffffff12;color:var(--t);padding:7px 14px;
+  border-radius:20px;font-size:.83rem;cursor:pointer;transition:border-color .2s,background .2s}
+.chip:hover{border-color:var(--a);background:#6c63ff15;color:var(--a2)}
+
+/* ── FORM SHELL ── */
+#formSection{max-width:760px;margin:0 auto;padding:0 24px 80px}
+
+/* Stage progress bar */
+.stage-bar{display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:36px}
+.stage-step{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer}
+.stage-dot{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:.78rem;font-weight:700;border:2px solid #ffffff15;background:var(--c);color:var(--m);
+  transition:all .3s}
+.stage-step.active .stage-dot{background:var(--a);border-color:var(--a);color:#fff}
+.stage-step.done .stage-dot{background:#34d39922;border-color:var(--success);color:var(--success)}
+.stage-label{font-size:.7rem;color:var(--m);white-space:nowrap}
+.stage-step.active .stage-label{color:var(--a2)}
+.stage-line{flex:1;height:2px;background:#ffffff10;margin:0 6px;max-width:80px;margin-bottom:18px}
+.stage-line.done{background:var(--success)}
+
+/* Form card */
+.form-card{background:var(--c);border:1px solid #ffffff0d;border-radius:var(--r);padding:28px 32px;
+  box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.stage-panel{display:none}
+.stage-panel.active{display:block}
+.stage-title{font-size:1.15rem;font-weight:700;margin-bottom:4px}
+.stage-desc{color:var(--m);font-size:.85rem;margin-bottom:24px}
+
+/* Form fields */
+.field{margin-bottom:18px}
+.field label{display:block;color:var(--m);font-size:.75rem;font-weight:600;
+  text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px}
+.field label .opt{font-weight:400;text-transform:none;letter-spacing:0;color:#4a5568}
+.field input,.field select,.field textarea{
+  width:100%;background:#0d0d14;border:1px solid #ffffff12;border-radius:8px;
+  padding:11px 14px;color:var(--t);font-size:.92rem;outline:none;font-family:inherit;
+  transition:border-color .2s}
+.field input:focus,.field select,.field textarea:focus{border-color:var(--a)}
+.field select{appearance:none;cursor:pointer}
+.field select option{background:#1a1a27}
+.field textarea{resize:vertical;min-height:80px;line-height:1.5}
+.field input::placeholder,.field textarea::placeholder{color:#3d4a5c}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:500px){.field-row{grid-template-columns:1fr}}
+
+/* Checkboxes */
+.check-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
+@media(max-width:500px){.check-grid{grid-template-columns:1fr}}
+.check-item{display:flex;align-items:center;gap:10px;background:#0d0d14;
+  border:1px solid #ffffff0d;border-radius:8px;padding:10px 12px;cursor:pointer;transition:border-color .2s}
+.check-item:hover{border-color:var(--a)}
+.check-item input[type=checkbox]{width:16px;height:16px;accent-color:var(--a);cursor:pointer;flex-shrink:0}
+.check-item span{font-size:.83rem;color:var(--t);line-height:1.3}
+
+/* Nav buttons */
+.btn-row{display:flex;justify-content:space-between;align-items:center;margin-top:24px;gap:12px}
+.btn-back{background:transparent;border:1px solid #ffffff18;color:var(--m);padding:11px 22px;
+  border-radius:8px;cursor:pointer;font-size:.88rem;font-weight:600;transition:border-color .2s}
+.btn-back:hover{border-color:var(--a);color:var(--t)}
+.btn-next{background:linear-gradient(135deg,var(--a),#5b4ce8);color:#fff;border:none;
+  padding:11px 28px;border-radius:8px;cursor:pointer;font-size:.9rem;font-weight:700;
+  transition:opacity .2s,transform .1s;flex:1;max-width:260px}
+.btn-next:hover{opacity:.88;transform:translateY(-1px)}
+.btn-next:active{transform:translateY(0)}
+.btn-next:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.skip-note{font-size:.74rem;color:var(--m);text-align:center;margin-top:8px}
+
+/* ── LOADING ── */
+#loadingSection{display:none;max-width:600px;margin:48px auto 80px;padding:0 24px;text-align:center}
+.loading-title{font-size:1.3rem;font-weight:700;margin-bottom:6px}
+.loading-sub{color:var(--m);font-size:.88rem;margin-bottom:32px}
+.agent-pipeline{display:flex;flex-direction:column;gap:10px;text-align:left}
+.astep{display:flex;align-items:center;gap:14px;background:var(--c);border:1px solid #ffffff0a;
+  border-radius:10px;padding:12px 16px;transition:border-color .3s,background .3s}
+.astep.active{border-color:var(--a);background:#6c63ff0a}
+.astep.done{border-color:#34d39944;background:#34d39908}
+.astep-icon{font-size:1.2rem;width:28px;text-align:center;flex-shrink:0}
+.astep-info{flex:1}
+.astep-name{font-size:.9rem;font-weight:700}
+.astep-desc{font-size:.76rem;color:var(--m);margin-top:2px}
+.astep-status{font-size:.76rem;font-weight:600;white-space:nowrap}
+.astep.active .astep-status{color:var(--a)}
+.astep.done  .astep-status{color:var(--success)}
+.spin{display:inline-block;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.est-time{color:var(--m);font-size:.78rem;margin-top:20px}
+
+/* ── RESULTS ── */
+#resultsSection{display:none;max-width:1440px;margin:0 auto;padding:0 32px 80px}
+
+/* Tab bar */
+.tab-bar{display:flex;gap:2px;background:var(--c);border-radius:10px;padding:4px;
+  margin-bottom:36px;position:sticky;top:57px;z-index:100;border:1px solid #ffffff0a}
+.tab-btn{flex:1;padding:9px;border:none;border-radius:7px;cursor:pointer;font-size:.82rem;
+  font-weight:600;background:transparent;color:var(--m);transition:all .2s}
+.tab-btn.active{background:var(--a);color:#fff}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+/* Shared section styles */
+.slabel{color:var(--a);font-size:.7rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:.12em;margin-bottom:7px}
+.stitle{font-size:1.6rem;font-weight:800;margin-bottom:5px}
+.ssub{color:var(--m);font-size:.9rem;margin-bottom:24px}
+.divider{height:1px;background:#ffffff07;margin:36px 0}
+
+/* Research two-panel layout */
+.research-layout{display:grid;grid-template-columns:1fr 420px;gap:32px;align-items:start}
+@media(max-width:1000px){.research-layout{grid-template-columns:1fr}}
+.research-sidebar{position:sticky;top:80px;max-height:calc(100vh - 100px);overflow-y:auto;
+  scrollbar-width:thin;scrollbar-color:#333 transparent}
+@media(max-width:1000px){.research-sidebar{position:static;max-height:none}}
+
+/* Confidence badge */
+.confidence-badge{display:inline-flex;align-items:center;gap:6px;border-radius:20px;
+  padding:5px 14px;font-size:.75rem;font-weight:700;margin-bottom:18px}
+.conf-high{background:#34d39915;border:1px solid #34d39944;color:var(--success)}
+.conf-medium{background:#f0b42915;border:1px solid #f0b42944;color:#f0b429}
+.conf-low{background:#ff555515;border:1px solid #ff555544;color:var(--danger)}
+.data-warning{background:#ff555510;border:1px solid #ff555530;border-radius:8px;
+  padding:11px 15px;font-size:.82rem;color:#ff9999;margin-bottom:18px}
+
+/* Snapshot strip */
+.snapshot-strip{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.snap-chip{display:flex;flex-direction:column;background:var(--c2);border:1px solid #ffffff0d;
+  border-radius:8px;padding:9px 14px;min-width:90px}
+.snap-label{color:var(--m);font-size:.62rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:.1em;margin-bottom:3px}
+.snap-value{color:var(--t);font-size:.88rem;font-weight:700}
+
+/* Analysis sections */
+.analysis-section{background:var(--c);border:1px solid #ffffff07;border-radius:var(--r);
+  padding:18px 20px;margin-bottom:12px}
+.analysis-section:hover{border-color:#ffffff12}
+.as-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.as-icon{font-size:1.1rem;flex-shrink:0}
+.as-label{color:var(--a);font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em}
+.as-body{color:var(--t);font-size:.87rem;line-height:1.6}
+.as-body strong{color:#fff;font-weight:600}
+
+/* Sidebar panel base */
+.sidebar-panel{background:var(--c2);border:1px solid #ffffff0d;border-radius:var(--r);
+  padding:18px 18px 14px;margin-bottom:16px}
+.sidebar-panel-title{color:var(--a);font-size:.67rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:.12em;margin-bottom:14px;display:flex;align-items:center;gap:7px}
+.sidebar-panel-title span{font-size:.85rem}
+
+/* Market shifts list */
+.shift-list{display:flex;flex-direction:column;gap:8px}
+.shift-item{display:flex;gap:9px;align-items:flex-start;padding:9px 10px;
+  background:var(--c);border:1px solid #ffffff07;border-radius:8px;font-size:.81rem;
+  color:var(--t);line-height:1.5}
+.shift-dot{width:7px;height:7px;border-radius:50%;background:var(--a2);flex-shrink:0;margin-top:5px}
+
+/* Competitor cards */
+.comp-card{background:var(--c);border:1px solid #ffffff08;border-radius:10px;
+  padding:13px 14px;margin-bottom:10px}
+.comp-card:last-child{margin-bottom:0}
+.comp-header{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px}
+.comp-name{color:#fff;font-size:.88rem;font-weight:700}
+.comp-outcome{color:var(--success);font-size:.72rem;font-weight:600;white-space:nowrap;
+  background:#34d39912;border:1px solid #34d39930;border-radius:4px;padding:2px 7px;flex-shrink:0}
+.comp-why{color:var(--t);font-size:.8rem;line-height:1.5;margin-bottom:8px}
+.comp-lesson{background:#6c63ff0d;border-left:3px solid var(--a);border-radius:0 6px 6px 0;
+  padding:7px 10px;font-size:.77rem;color:var(--a2);line-height:1.4;margin-bottom:8px}
+.comp-lesson strong{color:#fff;display:block;font-size:.7rem;text-transform:uppercase;
+  letter-spacing:.06em;margin-bottom:3px;font-weight:700}
+.comp-apply{font-size:.77rem;color:var(--m);line-height:1.4;border-top:1px solid #ffffff07;
+  padding-top:7px}
+.comp-apply strong{color:#e2a800;font-size:.68rem;text-transform:uppercase;
+  letter-spacing:.06em;display:block;margin-bottom:3px}
+
+/* Sources sidebar panel */
+.sources-sidebar-panel{background:var(--c2);border:1px solid #ffffff0d;border-radius:var(--r);
+  padding:18px;overflow:hidden}
+.sources-title{color:var(--a);font-size:.68rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:.12em;margin-bottom:14px;display:flex;align-items:center;gap:6px}
+.source-list{display:flex;flex-direction:column;gap:7px}
+.source-item{display:flex;align-items:center;gap:9px;background:var(--c);
+  border:1px solid #ffffff08;border-radius:8px;padding:10px 12px;text-decoration:none;
+  transition:border-color .2s,background .2s}
+.source-item:hover{border-color:var(--a);background:#6c63ff0a}
+.source-icon{font-size:.95rem;flex-shrink:0}
+.source-text{flex:1;overflow:hidden}
+.source-name{color:var(--t);font-size:.82rem;font-weight:600;white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis}
+.source-url{color:var(--m);font-size:.7rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.source-ext{color:var(--a2);font-size:.7rem;flex-shrink:0}
+
+/* Research section nav pills */
+.research-nav{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0 14px;
+  margin-bottom:6px;position:sticky;top:105px;z-index:90;background:var(--dk)}
+.rnav-btn{padding:7px 18px;border-radius:20px;font-size:.8rem;font-weight:600;
+  background:var(--c);border:1px solid #ffffff12;color:var(--m);cursor:pointer;
+  transition:all .2s;white-space:nowrap;line-height:1.5}
+.rnav-btn:hover{border-color:var(--a);color:var(--t);background:#6c63ff12}
+.rnav-btn.ractive{background:var(--a);border-color:var(--a);color:#fff}
+
+/* Autopsy */
+.hypo-box{background:linear-gradient(135deg,var(--c2),var(--c));border:1px solid #ff444430;
+  border-radius:var(--r);padding:24px 28px;position:relative;overflow:hidden;margin-bottom:24px}
+.hypo-box::after{content:'☠';position:absolute;right:18px;top:8px;font-size:4rem;opacity:.07}
+.hypo-label{color:#ff8888;font-size:.68rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:.1em;margin-bottom:10px}
+.hypo-text{color:#fff;font-size:1rem;font-style:italic;line-height:1.65}
+.score-row{display:flex;align-items:center;gap:12px;margin-top:14px}
+.score-bar-w{flex:1;height:5px;background:#ffffff10;border-radius:3px;overflow:hidden}
+.score-bar{height:100%;background:linear-gradient(90deg,#ff4444,#ff7700);border-radius:3px;transition:width 1s}
+.score-num{color:#ff8888;font-weight:800;font-size:.92rem;white-space:nowrap}
+.lens-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-top:22px}
+@media(max-width:580px){.lens-grid{grid-template-columns:1fr}}
+.lc{background:var(--c);border:1px solid #ffffff07;border-radius:var(--r);padding:18px}
+.lc-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}
+.lc-name{font-weight:700;font-size:.88rem}
+.lc-badge{font-size:.65rem;font-weight:700;padding:3px 9px;border-radius:20px;color:#000}
+.lc-find{color:var(--t);font-size:.85rem;line-height:1.5;margin-bottom:7px}
+.lc-ev{color:var(--m);font-size:.78rem;font-style:italic}
+
+/* Revival */
+.insight-box{background:#6c63ff10;border-left:4px solid var(--a);border-radius:0 10px 10px 0;
+  padding:16px 20px;margin:18px 0;font-style:italic;font-size:.95rem;line-height:1.6}
+.rev-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-top:20px}
+@media(max-width:580px){.rev-grid{grid-template-columns:1fr}}
+.rc{background:var(--c);border:1px solid #6c63ff22;border-radius:var(--r);padding:18px}
+.rc .rl{color:var(--a);font-size:.67rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:.1em;margin-bottom:7px}
+.rc .rv{color:var(--t);font-size:.87rem;line-height:1.5}
+.dont-list{list-style:none;padding:0;margin-top:12px}
+.dont-list li{padding:8px 0 8px 20px;border-bottom:1px solid #ffffff07;
+  color:#ff9999;font-size:.85rem;position:relative}
+.dont-list li::before{content:'✗';position:absolute;left:0;color:var(--danger);font-weight:700}
+.plan-row{display:flex;gap:14px;padding:11px 0;border-bottom:1px solid #ffffff07;align-items:flex-start}
+.plan-week{min-width:72px;background:var(--a);color:#fff;border-radius:6px;padding:3px 8px;
+  font-size:.7rem;font-weight:700;text-align:center;flex-shrink:0;margin-top:3px}
+.plan-action{color:var(--t);font-size:.86rem;line-height:1.5}
+.risk-card{background:var(--c);border-radius:10px;padding:14px 16px;margin-bottom:10px;
+  border-left:3px solid #ff8c00}
+.risk-r{color:#ffaa44;font-size:.86rem;font-weight:600;margin-bottom:4px}
+.risk-m{color:var(--m);font-size:.82rem}
+
+/* Assets tab */
+.asset-card{background:var(--c);border:1px solid #ffffff0a;border-radius:var(--r);
+  padding:24px 28px;margin-bottom:20px}
+.asset-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px}
+.asset-title{font-size:1rem;font-weight:700}
+.asset-actions{display:flex;gap:8px}
+.btn-copy,.btn-dl{padding:6px 14px;border-radius:6px;font-size:.77rem;font-weight:600;
+  cursor:pointer;border:1px solid #ffffff18;transition:all .2s}
+.btn-copy{background:var(--a);color:#fff;border-color:var(--a)}
+.btn-copy:hover{opacity:.85}
+.btn-dl{background:transparent;color:var(--m)}
+.btn-dl:hover{border-color:var(--a);color:var(--t)}
+.asset-body{color:var(--t);font-size:.88rem;line-height:1.6}
+.asset-body .al{color:var(--a);font-size:.67rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:.1em;margin:14px 0 5px}
+.asset-body .av{color:var(--t);font-size:.87rem}
+.asset-body ul{list-style:none;padding:0}
+.asset-body ul li{padding:6px 0 6px 16px;border-bottom:1px solid #ffffff07;
+  font-size:.85rem;position:relative}
+.asset-body ul li::before{content:'•';position:absolute;left:0;color:var(--a)}
+.elevator-box{background:#0d0d14;border-radius:8px;padding:16px 20px;
+  font-style:italic;font-size:.95rem;line-height:1.65;border:1px solid #ffffff0a}
+blockquote{background:var(--c2);border-left:3px solid var(--a2);border-radius:0 8px 8px 0;
+  padding:12px 16px;font-style:italic;color:var(--t);font-size:.88rem;margin-top:14px}
+
+/* Preview CTA */
+.preview-cta{background:linear-gradient(135deg,var(--c2),var(--c));border:1px solid #6c63ff33;
+  border-radius:var(--r);padding:24px 28px;text-align:center;margin-top:28px}
+.preview-cta p{color:var(--m);margin-bottom:14px;font-size:.9rem}
+#previewBtn{background:linear-gradient(135deg,var(--a),#5b4ce8);color:#fff;border:none;
+  border-radius:8px;padding:11px 26px;font-size:.9rem;font-weight:700;cursor:pointer;transition:opacity .2s}
+#previewBtn:hover{opacity:.85}
+
+/* New Analysis btn */
+#newAnalysisBtn{display:none;background:transparent;border:1px solid #ffffff18;color:var(--m);
+  padding:9px 20px;border-radius:8px;cursor:pointer;font-size:.85rem;font-weight:600;
+  margin-bottom:24px;transition:border-color .2s}
+#newAnalysisBtn:hover{border-color:var(--a);color:var(--t)}
+
+/* Toast */
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);
+  background:var(--success);color:#000;padding:8px 20px;border-radius:40px;
+  font-weight:700;font-size:.85rem;transition:transform .3s;pointer-events:none;z-index:999}
+#toast.show{transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nlogo">🔬 <span>relaunch.ai</span></div>
+  <span class="nbadge">5-Agent LangGraph Pipeline</span>
+</nav>
+
+<!-- ── HERO ── -->
+<div id="heroSection">
+  <div class="eyebrow">⚡ Startup Autopsy + Revival Engine</div>
+  <h1>Why did it fail?<br/><span class="grad">How do you rebuild it?</span></h1>
+  <p class="hero-sub" id="heroSub">Input any failed startup — get a 6-lens post-mortem, a full relaunch strategy, and a mock marketing page generated by 5 AI agents.</p>
+
+  <div class="examples">
+    <span class="chip" onclick="quickFill('Quibi','Media & Entertainment','United States','2018','2020','$100M+','Short-form premium mobile video streaming')">📺 Quibi</span>
+    <span class="chip" onclick="quickFill('Juicero','Hardware / CPG','United States','2013','2017','$10M–$100M','Wi-Fi connected juice press machine with proprietary juice packs')">🥤 Juicero</span>
+    <span class="chip" onclick="quickFill('Theranos','Health / Biotech','United States','2003','2018','$100M+','Blood testing startup claiming to run hundreds of tests from a single drop of blood')">🩸 Theranos</span>
+    <span class="chip" onclick="quickFill('Google Glass','Hardware / Consumer Tech','United States','2013','2015','$100M+','Smart glasses with an optical head-mounted display and voice assistant')">👓 Google Glass</span>
+    <span class="chip" onclick="quickFill('Vine','Social Media','United States','2012','2017','Under $1M','6-second looping video social platform acquired by Twitter')">🎬 Vine</span>
+    <span class="chip" onclick="quickFill('Clubhouse','Social / Audio','United States','2020','2023','$10M–$100M','Live audio social network with invite-only drop-in rooms')">🎙 Clubhouse</span>
+  </div>
+</div>
+
+<!-- ── FORM ── -->
+<div id="formSection">
+
+  <!-- Stage progress -->
+  <div class="stage-bar">
+    <div class="stage-step active" id="sdot-1" onclick="goStage(1)">
+      <div class="stage-dot">1</div>
+      <div class="stage-label">Identity</div>
+    </div>
+    <div class="stage-line" id="sline-1"></div>
+    <div class="stage-step" id="sdot-2" onclick="goStage(2)">
+      <div class="stage-dot">2</div>
+      <div class="stage-label">Perspective</div>
+    </div>
+    <div class="stage-line" id="sline-2"></div>
+    <div class="stage-step" id="sdot-3" onclick="goStage(3)">
+      <div class="stage-dot">3</div>
+      <div class="stage-label">Signals</div>
+    </div>
+  </div>
+
+  <div class="form-card">
+
+    <!-- Stage 1 -->
+    <div class="stage-panel active" id="stage-1">
+      <div class="stage-title">Basic Identity</div>
+      <div class="stage-desc">Tell us about the startup — the facts only, no analysis yet.</div>
+
+      <div class="field">
+        <label for="startupName">Startup Name *</label>
+        <input id="startupName" type="text" placeholder="e.g. Quibi, Theranos, Juicero…" autocomplete="off"/>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="industry">Industry / Category</label>
+          <input id="industry" type="text" list="industry-list" placeholder="Select or type your own…" autocomplete="off"/>
+          <datalist id="industry-list">
+            <option>Fintech</option><option>Health / Biotech</option>
+            <option>Consumer Tech</option><option>B2B SaaS</option>
+            <option>Marketplace</option><option>Hardware</option>
+            <option>Social Media</option><option>Media & Entertainment</option>
+            <option>E-commerce</option><option>Logistics</option>
+            <option>EdTech</option><option>Climate / Energy</option>
+            <option>Food & Beverage</option><option>Real Estate</option><option>Other</option>
+          </datalist>
+        </div>
+        <div class="field">
+          <label for="country">Country / Market</label>
+          <input id="country" type="text" placeholder="e.g. United States, UK, India…"/>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="yearFounded">Founded</label>
+          <input id="yearFounded" type="text" placeholder="e.g. 2015"/>
+        </div>
+        <div class="field">
+          <label for="yearShutdown">Shutdown</label>
+          <input id="yearShutdown" type="text" placeholder="e.g. 2020"/>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="fundingRange">Funding Raised</label>
+        <input id="fundingRange" type="text" list="funding-list" placeholder="Select or type exact amount…" autocomplete="off"/>
+        <datalist id="funding-list">
+          <option>Bootstrapped</option><option>Under $1M</option>
+          <option>$1M–$10M</option><option>$10M–$100M</option><option>$100M+</option>
+        </datalist>
+      </div>
+
+      <div class="field">
+        <label for="productDesc">One-line description *</label>
+        <input id="productDesc" type="text" placeholder="What did the product actually do?"/>
+      </div>
+
+      <div class="btn-row">
+        <div></div>
+        <button class="btn-next" onclick="nextStage(1)">Continue →</button>
+      </div>
+    </div>
+
+    <!-- Stage 2 -->
+    <div class="stage-panel" id="stage-2">
+      <div class="stage-title">The Founder's Perspective</div>
+      <div class="stage-desc">Optional — but the more context you give, the more personalised the revival plan will be.</div>
+
+      <div class="field">
+        <label for="startupOverview">What was the startup? <span class="opt">(optional)</span></label>
+        <textarea id="startupOverview" placeholder="Describe the startup in your own words — the idea, the team, the mission…" rows="3"></textarea>
+      </div>
+      <div class="field">
+        <label for="whyFailedShutdown">Why did it fail and shut down? <span class="opt">(optional)</span></label>
+        <textarea id="whyFailedShutdown" placeholder="In plain terms, what happened? What led to the shutdown decision?" rows="3"></textarea>
+      </div>
+      <div class="btn-row">
+        <button class="btn-back" onclick="prevStage(2)">← Back</button>
+        <button class="btn-next" onclick="nextStage(2)">Continue →</button>
+      </div>
+      <div class="skip-note">This stage is optional — click Continue to skip</div>
+    </div>
+
+    <!-- Stage 3 -->
+    <div class="stage-panel" id="stage-3">
+      <div class="stage-title">Context Signals</div>
+      <div class="stage-desc">Check all that apply — helps the Autopsy Agent calibrate its analysis.</div>
+
+      <div class="field">
+        <div class="check-grid">
+          <label class="check-item"><input type="checkbox" value="Ran out of money"/><span>💸 Ran out of money</span></label>
+          <label class="check-item"><input type="checkbox" value="Larger competitor copied us"/><span>🏢 Larger competitor copied us</span></label>
+          <label class="check-item"><input type="checkbox" value="Market too early / didn't exist yet"/><span>⏱ Market too early / didn't exist yet</span></label>
+          <label class="check-item"><input type="checkbox" value="Team fell apart"/><span>👥 Team fell apart</span></label>
+          <label class="check-item"><input type="checkbox" value="Regulation blocked us"/><span>⚖️ Regulation blocked us</span></label>
+          <label class="check-item"><input type="checkbox" value="Product was never finished"/><span>🚧 Product was never finished</span></label>
+          <label class="check-item"><input type="checkbox" value="Growth stalled after initial traction"/><span>📉 Growth stalled after traction</span></label>
+          <label class="check-item"><input type="checkbox" value="Wrong pricing model"/><span>💰 Wrong pricing model</span></label>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-back" onclick="prevStage(3)">← Back</button>
+        <button class="btn-next" id="submitBtn" onclick="submitAnalysis()">🔬 Run Analysis</button>
+      </div>
+      <div class="skip-note">Checkboxes are optional — click Run Analysis to proceed</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── LOADING ── -->
+<div id="loadingSection">
+  <div class="loading-title" id="loadingTitle">Analysing <span id="loadingName"></span>…</div>
+  <div class="loading-sub">5 agents working in sequence. Estimated time: 6–8 minutes with live AI, ~10 seconds in demo mode.</div>
+  <div class="agent-pipeline">
+    <div class="astep" id="as-research">
+      <div class="astep-icon">🔍</div>
+      <div class="astep-info"><div class="astep-name">Research Agent</div><div class="astep-desc">Building research dossier — press, investors, community signals</div></div>
+      <span class="astep-status" id="ast-research">Waiting</span>
+    </div>
+    <div class="astep" id="as-autopsy">
+      <div class="astep-icon">🩻</div>
+      <div class="astep-info"><div class="astep-name">Autopsy Agent</div><div class="astep-desc">6-lens failure analysis — timing, market, PMF, team, competition, external</div></div>
+      <span class="astep-status" id="ast-autopsy">Waiting</span>
+    </div>
+    <div class="astep" id="as-revival">
+      <div class="astep-icon">⚡</div>
+      <div class="astep-info"><div class="astep-name">Revival Strategist</div><div class="astep-desc">Building ICP, GTM, 90-day plan, risk register</div></div>
+      <span class="astep-status" id="ast-revival">Waiting</span>
+    </div>
+    <div class="astep" id="as-copy">
+      <div class="astep-icon">✍️</div>
+      <div class="astep-info"><div class="astep-name">Copywriter Agent</div><div class="astep-desc">Writing summary card, investor pitch, elevator pitch</div></div>
+      <span class="astep-status" id="ast-copy">Waiting</span>
+    </div>
+    <div class="astep" id="as-mkt">
+      <div class="astep-icon">🚀</div>
+      <div class="astep-info"><div class="astep-name">Marketing Page Agent</div><div class="astep-desc">Generating mock landing page for the revived startup</div></div>
+      <span class="astep-status" id="ast-mkt">Waiting</span>
+    </div>
+  </div>
+  <div class="est-time" id="loadingEst">⏱ Agents running…</div>
+</div>
+
+<!-- ── RESULTS ── -->
+<div id="resultsSection">
+  <button id="newAnalysisBtn" onclick="resetAll()">← New Analysis</button>
+
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('research',this)">🔍 Research</button>
+    <button class="tab-btn"        onclick="switchTab('autopsy',this)">🩻 Autopsy</button>
+    <button class="tab-btn"        onclick="switchTab('revival',this)">⚡ Revival</button>
+    <button class="tab-btn"        onclick="switchTab('assets',this)">📦 Assets</button>
+  </div>
+
+  <!-- TAB 1: Research -->
+  <div class="tab-panel active" id="tab-research">
+    <div class="slabel">Research Dossier</div>
+    <div class="stitle" id="r-research-title">What We Found</div>
+    <p class="ssub">Everything publicly known — structured, sourced, and concrete.</p>
+
+    <div id="research-nav" class="research-nav" style="display:none"></div>
+
+    <div class="research-layout">
+      <!-- LEFT: Analysis -->
+      <div class="research-main">
+        <div id="r-confidence"></div>
+        <div id="r-data-warning"></div>
+        <!-- Snapshot chips row -->
+        <div class="snapshot-strip" id="r-snapshot"></div>
+        <!-- Analysis sections -->
+        <div id="r-analysis"></div>
+      </div>
+
+      <!-- RIGHT: Rich sidebar -->
+      <div class="research-sidebar">
+
+        <!-- Market shifts since shutdown -->
+        <div class="sidebar-panel" id="r-shifts-wrap" style="display:none">
+          <div class="sidebar-panel-title"><span>🌐</span> What's Changed Since Shutdown</div>
+          <div class="shift-list" id="r-shifts-list"></div>
+        </div>
+
+        <!-- Competitors doing well -->
+        <div class="sidebar-panel" id="r-comps-wrap" style="display:none">
+          <div class="sidebar-panel-title"><span>🏆</span> Who's Thriving in This Space — And Why</div>
+          <div id="r-comps-list"></div>
+        </div>
+
+        <!-- Research Sources -->
+        <div class="sources-sidebar-panel" id="r-sources-wrap" style="display:none">
+          <div class="sources-title">🔗 Research Sources</div>
+          <div class="source-list" id="r-sources-list"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 2: Autopsy -->
+  <div class="tab-panel" id="tab-autopsy">
+    <div class="slabel">Post-Mortem</div>
+    <div class="stitle" id="r-autopsy-title">6-Lens Failure Analysis</div>
+    <p class="ssub">Brutal, specific, evidence-backed. The advisor they never had.</p>
+    <div class="hypo-box">
+      <div class="hypo-label">Primary Failure Hypothesis</div>
+      <div class="hypo-text" id="r-hypothesis"></div>
+      <div class="score-row">
+        <span class="score-num" id="r-score-label"></span>
+        <div class="score-bar-w"><div class="score-bar" id="r-score-bar" style="width:0%"></div></div>
+      </div>
+    </div>
+    <div class="lens-grid" id="r-lenses"></div>
+  </div>
+
+  <!-- TAB 3: Revival -->
+  <div class="tab-panel" id="tab-revival">
+    <div class="slabel">The Revival</div>
+    <div class="stitle" id="r-revival-title">Rebuilt for 2025</div>
+    <p class="ssub">Same core insight. Completely different execution.</p>
+
+    <div class="insight-box" id="r-insight"></div>
+
+    <div class="rev-grid" id="r-rev-grid"></div>
+
+    <div class="divider"></div>
+    <div class="slabel" style="margin-bottom:10px">What NOT To Do</div>
+    <ul class="dont-list" id="r-donts"></ul>
+
+    <div class="divider"></div>
+    <div class="slabel" style="margin-bottom:8px">90-Day Launch Roadmap</div>
+    <p class="ssub">Week by week. No fluff.</p>
+    <div id="r-plan"></div>
+
+    <div class="divider"></div>
+    <div class="slabel" style="margin-bottom:8px">Risk Register</div>
+    <p class="ssub">Top 3 things that could kill the revival — and how to prevent them.</p>
+    <div id="r-risks"></div>
+  </div>
+
+  <!-- TAB 4: Assets -->
+  <div class="tab-panel" id="tab-assets">
+    <div class="slabel">Polished Outputs</div>
+    <div class="stitle">3 Assets, Ready to Use</div>
+    <p class="ssub">Copy-ready outputs from the Copywriter Agent.</p>
+
+    <!-- Asset 1: Summary Card -->
+    <div class="asset-card">
+      <div class="asset-header">
+        <div class="asset-title">📊 Autopsy Summary Card</div>
+        <div class="asset-actions">
+          <button class="btn-copy" onclick="copyAsset('asset1-text')">Copy</button>
+          <button class="btn-dl"   onclick="dlAsset('asset1-text','autopsy-card.txt')">Download</button>
+        </div>
+      </div>
+      <div class="asset-body" id="asset1-body"></div>
+      <div style="display:none" id="asset1-text"></div>
+    </div>
+
+    <!-- Asset 2: Revival Pitch -->
+    <div class="asset-card">
+      <div class="asset-header">
+        <div class="asset-title">🚀 One-Page Revival Pitch</div>
+        <div class="asset-actions">
+          <button class="btn-copy" onclick="copyAsset('asset2-text')">Copy</button>
+          <button class="btn-dl"   onclick="dlAsset('asset2-text','revival-pitch.txt')">Download</button>
+        </div>
+      </div>
+      <div class="asset-body" id="asset2-body"></div>
+      <div style="display:none" id="asset2-text"></div>
+    </div>
+
+    <!-- Asset 3: Elevator Pitch -->
+    <div class="asset-card">
+      <div class="asset-header">
+        <div class="asset-title">🎤 30-Second Elevator Pitch</div>
+        <div class="asset-actions">
+          <button class="btn-copy" onclick="copyAsset('asset3-text')">Copy</button>
+          <button class="btn-dl"   onclick="dlAsset('asset3-text','elevator-pitch.txt')">Download</button>
+        </div>
+      </div>
+      <div class="asset-body" id="asset3-body"></div>
+      <div style="display:none" id="asset3-text"></div>
+    </div>
+
+    <!-- Marketing Page CTA -->
+    <div class="preview-cta">
+      <p>🌐 A full mock marketing landing page for the revived startup has been generated.</p>
+      <button id="previewBtn" onclick="openPreview()">Open Marketing Page →</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ── Dynamic year ───────────────────────────────────────────────────────────────
+const CUR_YEAR = new Date().getFullYear();
+document.addEventListener('DOMContentLoaded', () => {
+  // Update hero subtitle with current year
+  document.getElementById('heroSub').textContent =
+    `Input any failed startup — get a 6-lens post-mortem, a full ${CUR_YEAR} relaunch strategy, and a mock marketing page generated by 5 AI agents.`;
+});
+
+// ── State ─────────────────────────────────────────────────────────────────────
+let currentStage = 1;
+let currentStartup = '';
+const ratingColors = {Critical:'#ff4444',Significant:'#ff8c00',Minor:'#f0b429','Not a factor':'#34d399'};
+const lensLabels = {
+  timing:'⏱ Timing',
+  market_size_monetization:'💰 Market & Monetization',
+  pmf:'🎯 Product-Market Fit',
+  team_execution:'👥 Team & Execution',
+  competition_defensibility:'⚔️ Competition & Defensibility',
+  external_factors:'🌍 External Factors'
+};
+
+// ── Quick fill from example chips ─────────────────────────────────────────────
+function quickFill(name, industry, country, founded, shutdown, funding, desc) {
+  document.getElementById('startupName').value  = name;
+  document.getElementById('industry').value     = industry;
+  document.getElementById('country').value      = country;
+  document.getElementById('yearFounded').value  = founded;
+  document.getElementById('yearShutdown').value = shutdown;
+  document.getElementById('fundingRange').value = funding;
+  document.getElementById('productDesc').value  = desc;
+  document.getElementById('formSection').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+// ── Stage navigation ──────────────────────────────────────────────────────────
+function goStage(n) {
+  document.querySelectorAll('.stage-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('stage-'+n).classList.add('active');
+  currentStage = n;
+  updateStageDots();
+}
+
+function nextStage(from) {
+  if (from === 1) {
+    if (!document.getElementById('startupName').value.trim()) {
+      showToast('Please enter a startup name');
+      return;
+    }
+    if (!document.getElementById('productDesc').value.trim()) {
+      showToast('Please describe what the product did');
+      return;
+    }
+  }
+  goStage(from + 1);
+  document.getElementById('formSection').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function prevStage(from) { goStage(from - 1); }
+
+function updateStageDots() {
+  [1,2,3].forEach(i => {
+    const dot = document.getElementById('sdot-'+i);
+    dot.classList.remove('active','done');
+    if (i < currentStage) dot.classList.add('done');
+    else if (i === currentStage) dot.classList.add('active');
+  });
+  [1,2].forEach(i => {
+    const line = document.getElementById('sline-'+i);
+    line.classList.toggle('done', i < currentStage);
+  });
+}
+
+// ── Submit ────────────────────────────────────────────────────────────────────
+async function submitAnalysis() {
+  const name = document.getElementById('startupName').value.trim();
+  if (!name) { showToast('Startup name required'); return; }
+
+  currentStartup = name;
+  document.getElementById('loadingName').textContent = name;
+
+  // Collect checked signals
+  const signals = [...document.querySelectorAll('.check-grid input:checked')].map(c => c.value);
+
+  const payload = {
+    startup_name:        name,
+    industry:            document.getElementById('industry').value,
+    country:             document.getElementById('country').value,
+    year_founded:        document.getElementById('yearFounded').value,
+    year_shutdown:       document.getElementById('yearShutdown').value,
+    funding_range:       document.getElementById('fundingRange').value,
+    product_description: document.getElementById('productDesc').value,
+    startup_overview:    document.getElementById('startupOverview').value,
+    why_failed_shutdown: document.getElementById('whyFailedShutdown').value,
+    context_signals:     signals,
+  };
+
+  // Switch views
+  document.getElementById('heroSection').style.display  = 'none';
+  document.getElementById('formSection').style.display  = 'none';
+  document.getElementById('loadingSection').style.display = 'block';
+  document.getElementById('loadingSection').scrollIntoView({behavior:'smooth'});
+
+  // Animate agent steps
+  const stepIds = ['research','autopsy','revival','copy','mkt'];
+  stepIds.forEach(id => setStep(id, 'waiting'));
+  let idx = 0;
+  setStep(stepIds[0], 'active');
+  const ticker = setInterval(() => {
+    if (idx < stepIds.length - 1) {
+      setStep(stepIds[idx], 'done');
+      idx++;
+      setStep(stepIds[idx], 'active');
+      document.getElementById('loadingEst').textContent = `⏱ ${idx+1} of 5 agents complete…`;
+    }
+  }, 2400);
+
+  try {
+    const r = await fetch('/analyse', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(payload)
+    });
+    clearInterval(ticker);
+    if (!r.ok) throw new Error(await r.text());
+    const data = await r.json();
+    stepIds.forEach(id => setStep(id, 'done'));
+    document.getElementById('loadingEst').textContent = '✅ All agents complete!';
+
+    setTimeout(() => {
+      document.getElementById('loadingSection').style.display = 'none';
+      document.getElementById('resultsSection').style.display = 'block';
+      document.getElementById('newAnalysisBtn').style.display = 'inline-block';
+      renderResults(data);
+      document.getElementById('resultsSection').scrollIntoView({behavior:'smooth'});
+    }, 800);
+
+  } catch(e) {
+    clearInterval(ticker);
+    document.getElementById('loadingSection').style.display = 'none';
+    document.getElementById('formSection').style.display    = 'block';
+    document.getElementById('heroSection').style.display    = 'block';
+    goStage(1);
+    showToast('⚠ Error: ' + e.message);
+  }
+}
+
+function setStep(id, state) {
+  const el = document.getElementById('as-'+id);
+  const st = document.getElementById('ast-'+id);
+  if (!el) return;
+  el.className = 'astep ' + (state==='active'?'active':state==='done'?'done':'');
+  st.textContent = state==='active' ? '⟳ Running' : state==='done' ? '✓ Done' : 'Waiting';
+}
+
+// ── Render Results ────────────────────────────────────────────────────────────
+function renderResults(data) {
+  const {research, autopsy, revival, copywriter_outputs: co, data_confidence} = data;
+  const origName = research?.name || data.startup_name;
+  const revName  = revival?.revised_name || origName + ' (Relaunch)';
+
+  // Titles
+  document.getElementById('r-research-title').textContent = `Research Dossier: ${origName}`;
+  document.getElementById('r-autopsy-title').textContent  = `Why ${origName} Really Failed`;
+  document.getElementById('r-revival-title').textContent  = `What ${revName} Looks Like in ${CUR_YEAR}`;
+
+  // ── Research Tab ──
+  const confMap = {high:'conf-high',medium:'conf-medium',low:'conf-low'};
+  const confLabel = {high:'High Confidence — substantial public data found',
+                     medium:'Medium Confidence — some public data found',
+                     low:'Low Confidence — limited public data; relying more on founder inputs'};
+  document.getElementById('r-confidence').innerHTML =
+    `<div class="confidence-badge ${confMap[data_confidence]||'conf-medium'}">
+      ${data_confidence==='high'?'✅':data_confidence==='low'?'⚠️':'ℹ️'} ${confLabel[data_confidence]||''}
+    </div>`;
+
+  if (autopsy?.data_note) {
+    document.getElementById('r-data-warning').innerHTML =
+      `<div class="data-warning">⚠ ${autopsy.data_note}</div>`;
+  }
+
+  // ── Snapshot chips (compact facts row) ──
+  const snapFields = [
+    ['Founded',  research?.founded],
+    ['Shutdown', research?.shutdown],
+    ['Funding',  research?.funding],
+    ['Industry', research?.category],
+    ['Market',   research?.market],
+  ];
+  document.getElementById('r-snapshot').innerHTML = snapFields
+    .filter(([,v]) => v)
+    .map(([l,v]) => `
+      <div class="snap-chip">
+        <span class="snap-label">${l}</span>
+        <span class="snap-value">${v}</span>
+      </div>`).join('');
+
+  // ── Analysis sections (narrative, icon-labelled) ──
+  const analysisSections = [
+    { icon:'🛠', label:'What They Built',      body: research?.what_they_built },
+    { icon:'📰', label:'Press Coverage',       body: research?.press_coverage },
+    { icon:'🎙', label:'Founder Commentary',   body: research?.founder_interviews },
+    { icon:'💬', label:'Community Signals',    body: research?.community_signals },
+    { icon:'🔄', label:'Pivots Attempted',     body: research?.pivots },
+    { icon:'⚔️', label:'Competitor Landscape', body: research?.competitor_landscape },
+    { icon:'🌐', label:'Market Conditions',    body: research?.market_conditions },
+  ];
+  const filteredSections = analysisSections.filter(({body}) => body);
+  document.getElementById('r-analysis').innerHTML = filteredSections
+    .map(({icon, label, body}) => {
+      const secId = 'sec-' + label.toLowerCase().replace(/[^a-z]+/g,'-').replace(/-+$/,'');
+      return `
+      <div class="analysis-section" id="${secId}">
+        <div class="as-header">
+          <span class="as-icon">${icon}</span>
+          <span class="as-label">${label}</span>
+        </div>
+        <div class="as-body">${Array.isArray(body) ? '<ul style="padding-left:16px;list-style:disc">'+body.map(i=>`<li style="margin-bottom:4px">${i}</li>`).join('')+'</ul>' : body}</div>
+      </div>`;
+    }).join('');
+
+  // ── Market shifts sidebar ──
+  const shifts = research?.key_market_shifts || [];
+  if (shifts.length > 0) {
+    document.getElementById('r-shifts-wrap').style.display = 'block';
+    document.getElementById('r-shifts-list').innerHTML = shifts.map(s =>
+      `<div class="shift-item"><span class="shift-dot"></span><span>${s}</span></div>`
+    ).join('');
+  }
+
+  // ── Competitors doing well sidebar ──
+  const comps = research?.competitors_doing_well || [];
+  if (comps.length > 0) {
+    document.getElementById('r-comps-wrap').style.display = 'block';
+    document.getElementById('r-comps-list').innerHTML = comps.map(c => `
+      <div class="comp-card">
+        <div class="comp-header">
+          <span class="comp-name">${c.name}</span>
+          <span class="comp-outcome">${c.outcome}</span>
+        </div>
+        <div class="comp-why">${c.why_succeeded}</div>
+        <div class="comp-lesson">
+          <strong>Key Lesson</strong>${c.key_lesson}
+        </div>
+        <div class="comp-apply">
+          <strong>How to Apply</strong>${c.how_to_apply}
+        </div>
+      </div>`).join('');
+  }
+
+  // ── Sources sidebar ──
+  const sources = research?.sources || [];
+  const sourceIconMap = {
+    'crunchbase':'🏢', 'google':'🔍', 'hacker news':'💬', 'techcrunch':'📰',
+    'reddit':'👾', 'linkedin':'💼', 'pitchbook':'📊', 'cb insights':'📈'
+  };
+  if (sources.length > 0) {
+    document.getElementById('r-sources-wrap').style.display = 'block';
+    document.getElementById('r-sources-list').innerHTML = sources.map(s => {
+      const titleL = (s.title||'').toLowerCase();
+      const icon = Object.entries(sourceIconMap).find(([k])=>titleL.includes(k))?.[1] || '🔗';
+      const urlShort = (s.url||'').replace(/^https?:\/\//,'').replace(/\?.*/,'');
+      return `<a class="source-item" href="${s.url}" target="_blank" rel="noopener noreferrer">
+        <span class="source-icon">${icon}</span>
+        <div class="source-text">
+          <div class="source-name">${s.title||s.url}</div>
+          <div class="source-url">${urlShort}</div>
+        </div>
+        <span class="source-ext">↗</span>
+      </a>`;
+    }).join('');
+  }
+
+  // ── Research section nav ──
+  buildResearchNav(filteredSections, shifts.length > 0, comps.length > 0, sources.length > 0);
+
+  // ── Autopsy Tab ──
+  document.getElementById('r-hypothesis').textContent = autopsy?.primary_failure_hypothesis || '';
+  const score = autopsy?.overall_score ?? autopsy?.score ?? 0;
+  document.getElementById('r-score-label').textContent = `Survival Score: ${score}/100`;
+  setTimeout(() => document.getElementById('r-score-bar').style.width = score+'%', 300);
+
+  document.getElementById('r-lenses').innerHTML = Object.entries(lensLabels).map(([key, label]) => {
+    const d = autopsy?.[key] || {};
+    if (!d.rating) return '';
+    const color = ratingColors[d.rating] || '#888';
+    return `<div class="lc">
+      <div class="lc-top"><span class="lc-name">${label}</span>
+        <span class="lc-badge" style="background:${color}">${d.rating}</span></div>
+      <p class="lc-find">${d.finding||''}</p>
+      <p class="lc-ev">📍 ${d.evidence||''}</p>
+    </div>`;
+  }).join('');
+
+  // ── Revival Tab ──
+  document.getElementById('r-insight').textContent = '💡 ' + (revival?.core_insight || '');
+
+  const gtm = revival?.gtm_strategy || {};
+  document.getElementById('r-rev-grid').innerHTML = [
+    ['Revised ICP',         revival?.revised_icp],
+    ['Repositioning',       revival?.repositioning_statement],
+    ['Primary GTM Channel', gtm?.primary_channel],
+    ['Why This Channel',    gtm?.why_channel],
+    ['Pricing Model',       gtm?.pricing_model],
+    ['Competitive Landscape Today', revival?.competitive_landscape_today],
+  ].filter(([,v])=>v).map(([l,v])=>`
+    <div class="rc"><div class="rl">${l}</div><div class="rv">${v}</div></div>`).join('');
+
+  document.getElementById('r-donts').innerHTML =
+    (gtm?.what_not_to_do||[]).map(d=>`<li>${d}</li>`).join('');
+
+  document.getElementById('r-plan').innerHTML =
+    (gtm?.['90_day_plan']||[]).map(p=>`
+      <div class="plan-row">
+        <div class="plan-week">Week ${p.week||''}</div>
+        <div class="plan-action">${p.action||''}</div>
+      </div>`).join('');
+
+  document.getElementById('r-risks').innerHTML =
+    (revival?.risk_register||[]).map(r=>`
+      <div class="risk-card">
+        <div class="risk-r">⚠ ${r.risk||''}</div>
+        <div class="risk-m">→ ${r.mitigation||''}</div>
+      </div>`).join('');
+
+  // ── Assets Tab ──
+  const card = co?.autopsy_summary_card || {};
+  const pitch = co?.revival_pitch || {};
+  const elev = co?.elevator_pitch || '';
+
+  // Asset 1: Autopsy Card
+  document.getElementById('asset1-body').innerHTML = `
+    <div class="al">Headline</div><div class="av">${card.headline||''}</div>
+    <div class="al">Primary Hypothesis</div><div class="av">${card.primary_hypothesis||''}</div>
+    <div class="al">Top 3 Failure Factors</div>
+    <ul>${(card.top_3_factors||[]).map(f=>`<li>${f}</li>`).join('')}</ul>
+    ${card.killer_quote?`<blockquote>${card.killer_quote}</blockquote>`:''}`;
+  document.getElementById('asset1-text').textContent =
+    `AUTOPSY SUMMARY: ${card.headline||''}\n\n${card.primary_hypothesis||''}\n\n` +
+    `TOP 3 FAILURE FACTORS:\n${(card.top_3_factors||[]).map((f,i)=>`${i+1}. ${f}`).join('\n')}\n\n` +
+    (card.killer_quote?`"${card.killer_quote}"`:'');
+
+  // Asset 2: Revival Pitch — explicit field mapping, no dynamic key lookup
+  const pitchRows = [
+    ['The Problem',  pitch?.problem  || ''],
+    ['Our Solution', pitch?.solution || ''],
+    ['The Market',   pitch?.market   || ''],
+    ['Why Now',      pitch?.why_now  || ''],
+    ['The Ask',      pitch?.ask      || ''],
+  ];
+  document.getElementById('asset2-body').innerHTML = pitchRows.filter(([,v])=>v)
+    .map(([l,v])=>`<div class="al">${l}</div><div class="av" style="margin-bottom:10px">${v}</div>`).join('');
+  if (!pitchRows.some(([,v])=>v)) {
+    document.getElementById('asset2-body').innerHTML =
+      '<p style="color:var(--m);font-size:.85rem">Revival pitch will appear here after analysis.</p>';
+  }
+  document.getElementById('asset2-text').textContent = pitchRows.filter(([,v])=>v)
+    .map(([l,v])=>`${l.toUpperCase()}:\n${v}`).join('\n\n');
+
+  // Asset 3: Elevator Pitch
+  const elevText = typeof elev === 'string' ? elev : (elev || '');
+  document.getElementById('asset3-body').innerHTML = elevText
+    ? `<div class="elevator-box">${elevText}</div>`
+    : '<p style="color:var(--m);font-size:.85rem">Elevator pitch will appear here after analysis.</p>';
+  document.getElementById('asset3-text').textContent = elevText;
+}
+
+// ── Tab switching ─────────────────────────────────────────────────────────────
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-'+name).classList.add('active');
+}
+
+// ── Marketing page preview ────────────────────────────────────────────────────
+function openPreview() {
+  if (currentStartup) window.open('/preview/'+encodeURIComponent(currentStartup), '_blank');
+}
+
+// ── Copy / Download helpers ───────────────────────────────────────────────────
+function copyAsset(id) {
+  const txt = document.getElementById(id).textContent;
+  navigator.clipboard.writeText(txt).then(()=>showToast('Copied to clipboard!'));
+}
+function dlAsset(id, filename) {
+  const txt = document.getElementById(id).textContent;
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([txt],{type:'text/plain'}));
+  a.download = filename; a.click();
+}
+
+// ── Reset ─────────────────────────────────────────────────────────────────────
+function resetAll() {
+  document.getElementById('resultsSection').style.display = 'none';
+  document.getElementById('newAnalysisBtn').style.display = 'none';
+  document.getElementById('heroSection').style.display    = 'block';
+  document.getElementById('formSection').style.display    = 'block';
+  goStage(1);
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// ── Research section navigation ───────────────────────────────────────────────
+function sectionId(label) {
+  return 'sec-' + label.toLowerCase().replace(/[^a-z]+/g,'-').replace(/-+$/,'');
+}
+
+function scrollToSection(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  // Account for sticky nav (main nav ~57px + tab bar ~48px + research nav ~45px + padding)
+  const offset = 165;
+  const top = el.getBoundingClientRect().top + window.scrollY - offset;
+  window.scrollTo({top, behavior:'smooth'});
+}
+
+function buildResearchNav(sections, hasShifts, hasComps, hasSources) {
+  const nav = document.getElementById('research-nav');
+  if (!nav) return;
+  nav.innerHTML = '';
+
+  // 4 fixed nav items — show only when data is present
+  const items = [
+    { icon:'📊', label:'Analysis',       id:'r-analysis',    show: sections.length > 0 },
+    { icon:'🌐', label:"What's Changed", id:'r-shifts-wrap', show: hasShifts },
+    { icon:'🏆', label:'Competitors',    id:'r-comps-wrap',  show: hasComps  },
+    { icon:'🔗', label:'Resources',      id:'r-sources-wrap',show: hasSources },
+  ];
+
+  const visible = items.filter(i => i.show);
+  if (!visible.length) { nav.style.display = 'none'; return; }
+
+  visible.forEach(({icon, label, id}) => {
+    const btn = document.createElement('button');
+    btn.className = 'rnav-btn';
+    btn.dataset.target = id;
+    btn.innerHTML = `${icon} ${label}`;
+    btn.onclick = () => scrollToSection(id);
+    nav.appendChild(btn);
+  });
+
+  nav.style.display = 'flex';
+  setTimeout(() => initResearchScrollSpy(), 120);
+}
+
+function initResearchScrollSpy() {
+  const nav = document.getElementById('research-nav');
+  if (!nav) return;
+  const btns = Array.from(nav.querySelectorAll('.rnav-btn'));
+  if (!btns.length) return;
+
+  // Clean up previous observer if any
+  if (window._rNavObserver) window._rNavObserver.disconnect();
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        btns.forEach(b => b.classList.remove('ractive'));
+        const btn = nav.querySelector(`[data-target="${entry.target.id}"]`);
+        if (btn) {
+          btn.classList.add('ractive');
+          // Scroll the nav pill into view if hidden
+          btn.scrollIntoView({behavior:'smooth', block:'nearest', inline:'center'});
+        }
+      }
+    });
+  }, {rootMargin: '-120px 0px -55% 0px', threshold: 0});
+
+  btns.forEach(btn => {
+    const el = document.getElementById(btn.dataset.target);
+    if (el) observer.observe(el);
+  });
+
+  window._rNavObserver = observer;
+}
+
+// ── Toast ─────────────────────────────────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2400);
+}
+</script>
+</body>
+</html>
